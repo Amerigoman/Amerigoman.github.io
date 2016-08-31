@@ -1,0 +1,31 @@
+﻿* {
+  box-sizing: border-box;
+}
+
+body {
+	width: 500px;
+	margin: 0 auto;  
+}
+
+.ng-invalid.ng-dirty {
+  border-color: #FA787E;
+}
+
+.ng-valid.ng-dirty{
+  border-color: #78FA89;
+}
+
+li {
+    list-style-type: none;
+}
+
+.img-center {
+    text-align: center;
+}
+
+.small-image {
+	display: inline-block;
+	text-align: center;
+	width: 60px;
+	height: 60px;
+}
