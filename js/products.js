@@ -50,6 +50,10 @@
         this.setCurrent = function(imageNumber){
           this.current = imageNumber || 0;
         };
+
+        this.isSet = function(imageNumber) {
+          return this.current === imageNumber;
+        };
       },
       controllerAs: "gallery"
     };
