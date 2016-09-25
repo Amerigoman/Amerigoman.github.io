@@ -1,0 +1,52 @@
+﻿* {
+	box-sizing: border-box;
+}
+
+table {
+	margin: 0 auto;
+}
+
+table tr td {
+	height: 20px;
+	width: 20px;
+	border: 1px solid rgba(93,93,123,.26);
+	background: rgba(175,165,165,.99);
+}
+
+table tr td:active {
+	background: rgba(134,118,118,.99);
+}
+
+.opened {
+	background: rgba(199,190,190,.72);
+	text-align: center;
+	vertical-align: middle;
+}
+
+.markBomb {
+	background: url(../img/bomb.png);
+}
+
+.marker {
+	background: url(../img/bombMarker.png) rgba(199,190,190,.72);
+}
+
+.gameover {
+	display: block; 
+	margin: 0 auto;
+	width: 200px;
+	height: 85px;
+	background: url(../img/gameover.png);
+}
+
+.winner {
+	display: block; 
+	margin: 0 auto;
+	width: 200px;
+	height: 137px;
+	background: url(../img/winner.png);
+}
+
+.one { color: blue; }
+.two { color: green; }
+.three { color: red; }
