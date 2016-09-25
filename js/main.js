@@ -1,13 +1,13 @@
 var bomb = [
 	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	[0, 0, 0, 0, 1, 0, 0, 0, 1, 0],
-	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-	[0, 0, 0, 1, 0, 0, 0, 0, 0, 1],
+	[0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
 	[0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
 	[0, 0, 0, 0, 0, 0, 1, 0, 0, 1],
 	[0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
 	[0, 1, 0, 0, 0, 0, 1, 0, 0, 0],
-	[0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+	[0, 0, 0, 0, 1, 1, 0, 0, 1, 0],
 	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 ];
 
@@ -76,7 +76,7 @@ table[0].onclick = function(event) {
   var elem = self.firstElementChild.children[row].children[cell];
 
   if(value == 'X') {
-  	gameOver(self);
+  	gameOver();
   } else if(value != 0) {
   	elem.innerHTML = value;
     highlight(target, value);
@@ -90,13 +90,14 @@ table[0].onclick = function(event) {
 
 function highlight(node, value) {
   selectedTd = node;
+
+  if( selectedTd.matches('.opened') ) return;
   selectedTd.classList.add('opened');
   if(value == 1) selectedTd.classList.add('one');
   else if(value == 2) selectedTd.classList.add('two');
   else if(value == 3) selectedTd.classList.add('three');
   openedCells++;
-  console.log('openedCells :: ' + openedCells);
-  if(openedCells === cellsAmount - amountBombs) winner(selectedTd);
+  if(openedCells === cellsAmount - amountBombs) winner();
 }
  
 table[0].oncontextmenu = function(event) {
@@ -148,7 +149,7 @@ function clickCell(element, value) {
  * [gameOver work if bomb is exploded]
  * @return {undefined}
  */
-function gameOver(self) {
+function gameOver() {
   var len = table[0].rows.length;
 
   for (var i = 0; i < len; i++) {
@@ -178,19 +179,22 @@ function gameOver(self) {
   img.classList.add('gameover');
   parent.appendChild(img);
 
-  self.onclick=function () {}
-  self.oncontextmenu=function () {}
+  table[0].onclick = function () {}
+  table[0].oncontextmenu = function () {}
 }
 
 /**
  * [winner work if you are winner]
  * @return {undefined}
  */
-function winner(self) {
+function winner() {
   var parent = document.body;
   var img = document.createElement('img');
   img.classList.add('winner');
   parent.appendChild(img);
+
+  table[0].onclick = function () {};
+  table[0].oncontextmenu = function () {}
 }
 
 /**

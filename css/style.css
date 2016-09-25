@@ -17,6 +17,12 @@ table tr td:active {
 	background: rgba(134,118,118,.99);
 }
 
+.nameGame {
+	width: 85px;
+	display: block; 
+	margin: 10px auto;
+}
+
 .opened {
 	background: rgba(199,190,190,.72);
 	text-align: center;
