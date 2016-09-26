@@ -34,7 +34,8 @@ table tr td:active {
 }
 
 .marker {
-	background: url(../img/bombMarker.png) rgba(199,190,190,.72);
+	background-image: url(../img/bombMarker.png);
+	background-color: rgba(199,190,190,.72);
 }
 
 .gameover {
@@ -56,3 +57,4 @@ table tr td:active {
 .one { color: blue; }
 .two { color: green; }
 .three { color: red; }
+.four { color: orange; }

@@ -1,15 +1,8 @@
-var bomb = [
-	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-	[0, 0, 0, 0, 1, 0, 0, 0, 1, 0],
-	[0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-	[0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
-	[0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
-	[0, 0, 0, 0, 0, 0, 1, 0, 0, 1],
-	[0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
-	[0, 1, 0, 0, 0, 0, 1, 0, 0, 0],
-	[0, 0, 0, 0, 1, 1, 0, 0, 1, 0],
-	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-];
+var bomb = [];
+
+function rand (min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
 
 function getAllBombsAndCells() {
   var result = [];
@@ -28,19 +21,31 @@ function getAllBombsAndCells() {
 
 function initiateField(bomb) {
 	var area = [];
-	for(var i = 0; i < bomb.length; i++) {
-		area.push([]);
 
-		for(var j = 0; j < bomb[i].length; j++) {
+	for(var i = 0; i < 10; i++) {
+		area.push([]);
+		bomb.push([]);
+
+		for(var j = 0; j < 10; j++) {
 			cellsAmount++;
 
-			if(bomb[i][j] === 1) {
+			if(rand(0, 10) > 8) {
 				amountBombs++;
-				area[i].push('X');
-				continue;
-			}			
+				bomb[i].push('1');
+			} else {
+				bomb[i].push('0');
+			}
+		}		
+	}
 
-			area[i].push( getBombAmount(i, j) );
+	for(i = 0; i < 10; i++) {
+
+		for(j = 0; j < 10; j++) {
+			if(bomb[i][j] == 1) {
+				area[i].push('X');
+			} else {
+				area[i].push( getBombAmount(i, j) );
+			}
 		}		
 	}
 
@@ -96,6 +101,7 @@ function highlight(node, value) {
   if(value == 1) selectedTd.classList.add('one');
   else if(value == 2) selectedTd.classList.add('two');
   else if(value == 3) selectedTd.classList.add('three');
+  else if(value == 4) selectedTd.classList.add('four');
   openedCells++;
   if(openedCells === cellsAmount - amountBombs) winner();
 }
@@ -138,7 +144,7 @@ function openCells(self, row, cell, element) {
 
 function clickCell(element, value) {
   if( element.matches('.opened') ) return;
-  else if(value === 0) element.click();
+  else if(value == 0) element.click();
   else {
     element.innerHTML = value;
 	highlight(element, value);
@@ -150,6 +156,18 @@ function clickCell(element, value) {
  * @return {undefined}
  */
 function gameOver() {
+  openLostCells();
+
+  var parent = document.body;
+  var img = document.createElement('img');
+  img.classList.add('gameover');
+  parent.appendChild(img);
+
+  table[0].onclick = function () {}
+  table[0].oncontextmenu = function () {}
+}
+
+function openLostCells() {
   var len = table[0].rows.length;
 
   for (var i = 0; i < len; i++) {
@@ -162,25 +180,18 @@ function gameOver() {
       		row.children[j].classList.remove('marker');
       		row.children[j].classList.add('markBomb');
       	}
-      	else if(value === 0) row.children[j].classList.add('opened');
+      	else if(value == 0) row.children[j].classList.add('opened');
       	else {
       	  row.children[j].innerHTML = value;
       	  row.children[j].classList.add('opened');
       	  if(value == 1) row.children[j].classList.add('one');
   		  else if(value == 2) row.children[j].classList.add('two');
-  		  else if(value == 3) row.children[j].classList.add('three');      	  
+  		  else if(value == 3) row.children[j].classList.add('three');
+  		  else if(value == 4) row.children[j].classList.add('four');
       	}
       }
     }
   }
-
-  var parent = document.body;
-  var img = document.createElement('img');
-  img.classList.add('gameover');
-  parent.appendChild(img);
-
-  table[0].onclick = function () {}
-  table[0].oncontextmenu = function () {}
 }
 
 /**
@@ -188,6 +199,8 @@ function gameOver() {
  * @return {undefined}
  */
 function winner() {
+  openLostCells();
+
   var parent = document.body;
   var img = document.createElement('img');
   img.classList.add('winner');
@@ -211,28 +224,28 @@ function getBombAmount(i, j) {
 	if(j+1 >= bomb.length) right = false;
 
 	if(top) {
-		if(bomb[i-1][j] === 1) counter++;
+		if(bomb[i-1][j] == 1) counter++;
 	}
 	if(top && left) {
-		if(bomb[i-1][j-1] === 1) counter++;
+		if(bomb[i-1][j-1] == 1) counter++;
 	}
 	if(top && right) {
-		if(bomb[i-1][j+1] === 1) counter++;
+		if(bomb[i-1][j+1] == 1) counter++;
 	}
 	if(left) {
-		if(bomb[i][j-1] === 1) counter++;
+		if(bomb[i][j-1] == 1) counter++;
 	}
 	if(right) {
-		if(bomb[i][j+1] === 1) counter++;
+		if(bomb[i][j+1] == 1) counter++;
 	}
 	if(bottom) {
-		if(bomb[i+1][j] === 1) counter++;
+		if(bomb[i+1][j] == 1) counter++;
 	}
 	if(bottom && left) {
-		if(bomb[i+1][j-1] === 1) counter++;
+		if(bomb[i+1][j-1] == 1) counter++;
 	}
 	if(bottom && right) {
-		if(bomb[i+1][j+1] === 1) counter++;
+		if(bomb[i+1][j+1] == 1) counter++;
 	}
 
 	return counter;
