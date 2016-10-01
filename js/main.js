@@ -1,35 +1,23 @@
-var bomb = [];
-
+// get random number in definite rang
 function rand (min, max) {
-  return Math.floor(Math.random() * (max - min)) + min;
+  return (Math.random() * (max - min)) + min;
 }
 
-function getAllBombsAndCells() {
-  var result = [];
-  var amount = 0;
-
-  for(var i = 0; i < bomb.length; i++) {
-
-		for(var j = 0; j < bomb[i].length; j++) {
-			if(bomb[i][j] === 1) {
-				amount++;
-				continue;
-			}
-		}		
-	}
-}
-
-function initiateField(bomb) {
+/**
+ * [initiateField - form bomb area, calculate amount of cells and bombs]
+ * @return {[type]} [description]
+ */
+function initiateField(row, cell, complexity) {
 	var area = [];
 
-	for(var i = 0; i < 10; i++) {
+	for(var i = 0; i < row; i++) {
 		area.push([]);
 		bomb.push([]);
 
-		for(var j = 0; j < 10; j++) {
+		for(var j = 0; j < cell; j++) {
 			cellsAmount++;
 
-			if(rand(0, 10) > 8) {
+			if(rand(0, 10) > complexity) {
 				amountBombs++;
 				bomb[i].push('1');
 			} else {
@@ -38,9 +26,9 @@ function initiateField(bomb) {
 		}		
 	}
 
-	for(i = 0; i < 10; i++) {
+	for(i = 0; i < row; i++) {
 
-		for(j = 0; j < 10; j++) {
+		for(j = 0; j < cell; j++) {
 			if(bomb[i][j] == 1) {
 				area[i].push('X');
 			} else {
@@ -52,21 +40,71 @@ function initiateField(bomb) {
 	return area;
 }
 
+var bomb = [];
 var openedCells = 0;
 var amountBombs = 0;
 var cellsAmount = 0;
-var area = initiateField(bomb);
 
-console.log(amountBombs + ' ' + cellsAmount);
- 
-var selectedTd;
-var table = document.getElementsByTagName('table');
+var area, selectedTd;
+var table = document.createElement('table');
+table.classList.add('area');
 
-table[0].onclick = function(event) {
+// run sapper
+function start() {
+  var inputs = document.getElementsByTagName("input");
 
+  var row = inputs[1].value;
+  var cell = inputs[0].value;
+  var complexity = inputs[2].checked ? 8.5 : 7.8;
+
+  console.log('row :: ' + row + ', cell :: ' + cell + ', compl :: ' + complexity);
+
+  var body = document.body;
+  var menu = document.querySelector('.menu')
+  console.log(menu);
+
+  body.removeChild(menu);
+
+  createField(row, cell);
+  area = initiateField(row, cell, complexity);
+
+  console.log(amountBombs + ' ' + cellsAmount);
+
+  // table[0].addEventListener('click', clickListenerForCell(event));
+  // table[0].addEventListener('contextmenu', markListener(event));
+  console.dir(table);
+}
+
+// create bomb area for sapper
+function createField(row, cell) {
+
+  var tr = document.createElement('tr');
+  var td = document.createElement('td');
+  var body = document.body;
+
+  var span = document.createElement('span');
+  span.classList.add('nameGame');
+  span.innerHTML = '<em>Game: </em> Sapper';
+
+  body.appendChild(span);  
+
+  var newRow;
+  for (var i = 0; i < row; i++) {
+    newRow = table.insertRow();
+
+    for (var j = 0; j < cell; j++) {
+      newRow.insertCell();
+    }
+  }
+
+  body.appendChild(table);  
+}
+
+// listener for cells
+table.onclick = function(event) {
   var self = this;
   var target = event.target; // где был клик?
-  if(target.matches('.opened')) {
+  if(target.matches('.opened') || target.matches('.marker')) {
   	console.log('cells is already opened ');
   	return;
   }
@@ -93,20 +131,29 @@ table[0].onclick = function(event) {
   highlight(target, value); // подсветить TD
 };
 
+/**
+ * [highlight provide highlight of cells after clicking]
+ * @param  {object} node  - element to highlight
+ * @param  {string} value - amount of bombs around the cell
+ * @return {undefined}
+ */
 function highlight(node, value) {
   selectedTd = node;
 
   if( selectedTd.matches('.opened') ) return;
   selectedTd.classList.add('opened');
+
   if(value == 1) selectedTd.classList.add('one');
   else if(value == 2) selectedTd.classList.add('two');
   else if(value == 3) selectedTd.classList.add('three');
   else if(value == 4) selectedTd.classList.add('four');
+
   openedCells++;
   if(openedCells === cellsAmount - amountBombs) winner();
 }
- 
-table[0].oncontextmenu = function(event) {
+
+// listener for flag (right click)
+table.addEventListener('contextmenu', function(event) {
   var target = event.target;
 
   if (target.tagName != "TD") {
@@ -114,14 +161,23 @@ table[0].oncontextmenu = function(event) {
   }
 
   highlightBomb(target);
-  return false;
-}
+  event.preventDefault();
+});
 
+// mark cell after right click
 function highlightBomb(node) {
   selectedTd = node;
   selectedTd.classList.toggle('marker');
 }
 
+/**
+ * [openCells - open cells by recursion]
+ * @param  {object} self    - order not to lose the current object
+ * @param  {number} row     - coord Y
+ * @param  {number} cell    - coord X
+ * @param  {object} element - current clicked element
+ * @return {undefined}
+ */
 function openCells(self, row, cell, element) {  
   	var top = true, bottom = true, left = true, right = true;
   	var table = self.firstElementChild;
@@ -129,7 +185,7 @@ function openCells(self, row, cell, element) {
 	if(row-1 < 0) top = false;
 	if(row+1 >= bomb.length) bottom = false;
 	if(cell-1 < 0) left = false;
-	if(cell+1 >= bomb.length) right = false;
+	if(cell+1 >= bomb[0].length) right = false;
 
 	if(top) clickCell(table.children[row-1].children[cell], area[row-1][cell]);
 	if(top && left) clickCell(table.children[row-1].children[cell-1], area[row-1][cell-1]);
@@ -141,7 +197,12 @@ function openCells(self, row, cell, element) {
 	if(bottom && right) clickCell(table.children[row+1].children[cell+1], area[row+1][cell+1]);
 }
 
-
+/**
+ * [clickCell description]
+ * @param  {[type]} element [description]
+ * @param  {[type]} value   [description]
+ * @return {[type]}         [description]
+ */
 function clickCell(element, value) {
   if( element.matches('.opened') ) return;
   else if(value == 0) element.click();
@@ -163,16 +224,21 @@ function gameOver() {
   img.classList.add('gameover');
   parent.appendChild(img);
 
-  table[0].onclick = function () {}
-  table[0].oncontextmenu = function () {}
+  table.onclick = function () {}
+  table.removeEventListener('contextmenu', function () {});
 }
 
+/**
+ * [openLostCells after end of the game to open closed cells]
+ * @return {undefined}
+ */
 function openLostCells() {
-  var len = table[0].rows.length;
+  var lenR = table.rows.length;
+  var lenC = table.rows[0].cells.length;
 
-  for (var i = 0; i < len; i++) {
-  	for (var j = 0; j < len; j++) {
-      var row = table[0].rows[i];
+  for (var i = 0; i < lenR; i++) {
+  	for (var j = 0; j < lenC; j++) {
+      var row = table.rows[i];
       if( !row.cells[j].matches('.opened') ) {
       	var value = area[i][j];
 
@@ -206,8 +272,8 @@ function winner() {
   img.classList.add('winner');
   parent.appendChild(img);
 
-  table[0].onclick = function () {};
-  table[0].oncontextmenu = function () {}
+  table.onclick = function () {};
+  table.removeEventListener('contextmenu', function () {});
 }
 
 /**
@@ -221,7 +287,7 @@ function getBombAmount(i, j) {
 	if(i-1 < 0) top = false;
 	if(i+1 >= bomb.length) bottom = false;
 	if(j-1 < 0) left = false;
-	if(j+1 >= bomb.length) right = false;
+	if(j+1 >= bomb[0].length) right = false;
 
 	if(top) {
 		if(bomb[i-1][j] == 1) counter++;

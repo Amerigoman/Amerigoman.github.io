@@ -5,133 +5,33 @@
   <meta charset="utf-8">
   <title>Sapper</title>
   <link rel="stylesheet" href="css/default.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+  integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-    <span class="nameGame"><em>Game: </em> Sapper</span>
-        <table>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-        </table>
+    <table class="menu">
+        <tr>
+            <td><label for="area_width">Ширина поля</label></td>
+            <td><input id="area_width" class="form-control" type="number" min="9" max="50" placeholder=" 9 - 50"></td>
+        </tr>
+        <tr>
+            <td><label for="area_length">Длина поля</label></td>
+            <td><input id="area_length" class="form-control" type="number" min="9" max="50" placeholder=" 9 - 50"></td>
+        </tr>
+        <tr>
+            <td><label>Сложность</label></td>
+            <td><input id="easy" type="radio" name="complexity"> <label for="easy">Легко</label></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input id="pro" type="radio" name="complexity"> <label for="pro">Сложно</label></td>
+        </tr>
+        <tr>
+            <td colspan="2"><input class="btn btn-primary" type="button" value="Start" onclick="start()"></td>
+        </tr>
+    </table>
 
     <script src="js/main.js"></script>
 </body>
