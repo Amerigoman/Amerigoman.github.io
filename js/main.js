@@ -1,318 +1,245 @@
+function run() {
+  getFieldSize();
+}
+
 // get random number in definite rang
-function rand (min, max) {
-  return (Math.random() * (max - min)) + min;
+function rand(min, max) {
+  var rand = min - 0.5 + Math.random() * (max - min + 1)
+  rand = Math.round(rand);
+  return rand;
 }
 
-/**
- * [initiateField - form bomb area, calculate amount of cells and bombs]
- * @return {[type]} [description]
- */
-function initiateField(row, cell, complexity) {
-	var area = [];
+function openCell(node) {
+  if( counter.get() == 2 ) {
+  	closeCells();
+  	counter.reset();
+  }
 
-	for(var i = 0; i < row; i++) {
-		area.push([]);
-		bomb.push([]);
+  counter();
 
-		for(var j = 0; j < cell; j++) {
-			cellsAmount++;
+  var i = node.parentNode.rowIndex,
+  	  j = node.cellIndex;
+  var value = field[i][j];
 
-			if(rand(0, 10) > complexity) {
-				amountBombs++;
-				bomb[i].push('1');
-			} else {
-				bomb[i].push('0');
-			}
-		}		
-	}
+  rememberOpenedCells(i, j);
 
-	for(i = 0; i < row; i++) {
+  if( node.classList.contains('closed') ) {
+  	node.classList.remove('closed');
+  	node.style.background = "url('https://kde.link/test/" + value + ".png')";
+  } else {
+  	node.style.background = "";
+  	node.classList.add('closed');  	
+  }
 
-		for(j = 0; j < cell; j++) {
-			if(bomb[i][j] == 1) {
-				area[i].push('X');
-			} else {
-				area[i].push( getBombAmount(i, j) );
-			}
-		}		
-	}
+  if( counter.get() == 2 ) {
 
-	return area;
+  	if( checkDuplicate() ) {  		
+      getOpenedCell(0, false).style.background = "";
+  	  getOpenedCell(0, false).classList.add('hidden');
+
+  	  getOpenedCell(1, false).style.background = "";
+  	  getOpenedCell(1, false).classList.add('hidden');  	  
+  	
+  	  closeCells();
+  	  counter.reset();
+  	}
+  }
+
+  if( checkEndGame() ) winnerMenu();
 }
 
-var bomb = [];
-var openedCells = 0;
-var amountBombs = 0;
-var cellsAmount = 0;
+function checkDuplicate() {
+  if(getOpenedCell(0, false) === getOpenedCell(1, false)) return;
 
-var area, selectedTd;
-var table = document.createElement('table');
-table.classList.add('area');
+  var firstPictureNumber = getOpenedCell(0, false).style.background;
+  var secondPictureNumber = getOpenedCell(1, false).style.background;
 
-// run sapper
-function start() {
-  var inputs = document.getElementsByTagName("input");
-
-  var row = inputs[1].value;
-  var cell = inputs[0].value;
-  var complexity = inputs[2].checked ? 8.5 : 7.8;
-
-  console.log('row :: ' + row + ', cell :: ' + cell + ', compl :: ' + complexity);
-
-  var body = document.body;
-  var menu = document.querySelector('.menu')
-  console.log(menu);
-
-  body.removeChild(menu);
-
-  createField(row, cell);
-  area = initiateField(row, cell, complexity);
-
-  console.log(amountBombs + ' ' + cellsAmount);
-
-  // table[0].addEventListener('click', clickListenerForCell(event));
-  // table[0].addEventListener('contextmenu', markListener(event));
-  console.dir(table);
+  return firstPictureNumber === secondPictureNumber;
 }
 
-// create bomb area for sapper
-function createField(row, cell) {
+function getOpenedCell(ind, popOn) {
+  var cell, table = document.querySelector('table');
+  var i, j;
 
-  var tr = document.createElement('tr');
-  var td = document.createElement('td');
-  var body = document.body;
+  if(popOn) {
+  	j = openedCells[ind].pop();
+    i = openedCells[ind].pop();
+  } else {
+  	j = openedCells[ind][1];
+    i = openedCells[ind][0];
+  }
 
-  var span = document.createElement('span');
-  span.classList.add('nameGame');
-  span.innerHTML = '<em>Game: </em> Sapper';
+  cell = table.rows[i].cells[j];
 
-  body.appendChild(span);  
+  return cell;
+}
 
-  var newRow;
-  for (var i = 0; i < row; i++) {
+function closeCells() {
+  var firstOpenedCell = getOpenedCell(0, true), 
+  	  secondOpenedCell = getOpenedCell(1, true);
+
+  firstOpenedCell.style.background = "";
+  firstOpenedCell.classList.add('closed');
+
+  secondOpenedCell.style.background = "";
+  secondOpenedCell.classList.add('closed');
+}
+
+function rememberOpenedCells(i, j) {
+  openedCells[ counter.get() - 1 ].push(i, j);
+}
+
+function getFieldSize() {
+  var url = 'https://kde.link/test/get_field_size.php';
+
+  var xhr = new XMLHttpRequest();
+
+  xhr.open('GET', url, true);
+  xhr.send();
+  xhr.onload = function() {
+    var data = JSON.parse(xhr.responseText);
+
+    createField(data.width, data.height);
+  }
+}
+
+function initField(width, height) {
+  for (var i = 0; i < height; i++) {
+  	field[i] = [];
+
+    for (var j = 0; j < width; j++) {
+      field[i].push(0);
+    }
+  }
+
+  initCells(width, height);
+}
+
+function initCells(width, height) {
+  var LOWEST_PICTURE_NUMBER = 1;
+  var BIGGEST_PICTURE_NUMBER = 9;
+
+  var pictureNumber;
+  for (var i = 0; i < height; i++)
+    for (var j = 0; j < width; j++)
+      if( field[i][j] == 0 ) {
+      	pictureNumber = rand(LOWEST_PICTURE_NUMBER, BIGGEST_PICTURE_NUMBER);
+      	field[i][j] = pictureNumber;
+
+      	initPicDublicate(width, height, i, j, pictureNumber);
+      }
+}
+
+function initPicDublicate(width, height, i, j, pictureNumber) {
+  var x = rand(0, height - 1);
+  var y = rand(0, width - 1);
+
+  if( x !== i && y !== j && field[x][y] === 0) field[x][y] = pictureNumber;
+  else
+  	for(var k = height - 1; k >= 0; k--)
+      for(var m = width - 1; m >= 0; m--)
+      	if(field[k][m] === 0) {
+      	  field[k][m] = pictureNumber;
+      	  return;
+      	}
+}
+
+function createField(width, height) {
+  var table = document.createElement('table');
+  var img;
+  var div = document.querySelector('div.wrapper');
+
+  var newRow, newCell;
+  for (var i = 0; i < height; i++) {
     newRow = table.insertRow();
 
-    for (var j = 0; j < cell; j++) {
-      newRow.insertCell();
+    for (var j = 0; j < width; j++) {
+      newCell = newRow.insertCell();
+      newCell.className = 'closed';
     }
   }
 
-  body.appendChild(table);  
+  div.appendChild(table);
+
+  initField(width, height);
+  hangEventListenerOn();
 }
 
-// listener for cells
-table.onclick = function(event) {
-  var self = this;
-  var target = event.target; // где был клик?
-  if(target.matches('.opened') || target.matches('.marker')) {
-  	console.log('cells is already opened ');
-  	return;
-  }
+function hangEventListenerOn() {
+  var table = document.querySelector('table');
 
-  if (target.tagName != "TD") {
-    return; // не на TD? тогда не интересует
-  }
+  table.addEventListener('click', function(event) {
+  	var target = event.target;
 
-  var row = target.parentElement.rowIndex,
-      cell = target.cellIndex;
-  var value = area[row][cell];
-  var elem = self.firstElementChild.children[row].children[cell];
-
-  if(value == 'X') {
-  	gameOver();
-  } else if(value != 0) {
-  	elem.innerHTML = value;
-    highlight(target, value);
-    return;
-  } else {
-  	openCells(self, row, cell, elem);
-  }
-
-  highlight(target, value); // подсветить TD
-};
-
-/**
- * [highlight provide highlight of cells after clicking]
- * @param  {object} node  - element to highlight
- * @param  {string} value - amount of bombs around the cell
- * @return {undefined}
- */
-function highlight(node, value) {
-  selectedTd = node;
-
-  if( selectedTd.matches('.opened') ) return;
-  selectedTd.classList.add('opened');
-
-  if(value == 1) selectedTd.classList.add('one');
-  else if(value == 2) selectedTd.classList.add('two');
-  else if(value == 3) selectedTd.classList.add('three');
-  else if(value == 4) selectedTd.classList.add('four');
-
-  openedCells++;
-  if(openedCells === cellsAmount - amountBombs) winner();
+  	if(target.tagName == 'TD') {
+  	  openCell(target);  	  
+  		
+  	  return;
+  	}
+  });
 }
 
-// listener for flag (right click)
-table.addEventListener('contextmenu', function(event) {
-  var target = event.target;
+function makeCounter() {
+	var currentCount = 0;
 
-  if (target.tagName != "TD") {
-    return; // не на TD? тогда не интересует
-  }
-
-  highlightBomb(target);
-  event.preventDefault();
-});
-
-// mark cell after right click
-function highlightBomb(node) {
-  selectedTd = node;
-  selectedTd.classList.toggle('marker');
-}
-
-/**
- * [openCells - open cells by recursion]
- * @param  {object} self    - order not to lose the current object
- * @param  {number} row     - coord Y
- * @param  {number} cell    - coord X
- * @param  {object} element - current clicked element
- * @return {undefined}
- */
-function openCells(self, row, cell, element) {  
-  	var top = true, bottom = true, left = true, right = true;
-  	var table = self.firstElementChild;
-
-	if(row-1 < 0) top = false;
-	if(row+1 >= bomb.length) bottom = false;
-	if(cell-1 < 0) left = false;
-	if(cell+1 >= bomb[0].length) right = false;
-
-	if(top) clickCell(table.children[row-1].children[cell], area[row-1][cell]);
-	if(top && left) clickCell(table.children[row-1].children[cell-1], area[row-1][cell-1]);
-	if(top && right) clickCell(table.children[row-1].children[cell+1], area[row-1][cell+1]);
-	if(left) clickCell(table.children[row].children[cell-1], area[row][cell-1]);
-	if(right) clickCell(table.children[row].children[cell+1], area[row][cell+1]);
-	if(bottom) clickCell(table.children[row+1].children[cell], area[row+1][cell]);
-	if(bottom && left) clickCell(table.children[row+1].children[cell-1], area[row+1][cell-1]);
-	if(bottom && right) clickCell(table.children[row+1].children[cell+1], area[row+1][cell+1]);
-}
-
-/**
- * [clickCell description]
- * @param  {[type]} element [description]
- * @param  {[type]} value   [description]
- * @return {[type]}         [description]
- */
-function clickCell(element, value) {
-  if( element.matches('.opened') ) return;
-  else if(value == 0) element.click();
-  else {
-    element.innerHTML = value;
-	highlight(element, value);
-  }  	
-}
-
-/**
- * [gameOver work if bomb is exploded]
- * @return {undefined}
- */
-function gameOver() {
-  openLostCells();
-
-  var parent = document.body;
-  var img = document.createElement('img');
-  img.classList.add('gameover');
-  parent.appendChild(img);
-
-  table.onclick = function () {}
-  table.removeEventListener('contextmenu', function () {});
-}
-
-/**
- * [openLostCells after end of the game to open closed cells]
- * @return {undefined}
- */
-function openLostCells() {
-  var lenR = table.rows.length;
-  var lenC = table.rows[0].cells.length;
-
-  for (var i = 0; i < lenR; i++) {
-  	for (var j = 0; j < lenC; j++) {
-      var row = table.rows[i];
-      if( !row.cells[j].matches('.opened') ) {
-      	var value = area[i][j];
-
-      	if(value == 'X') {
-      		row.children[j].classList.remove('marker');
-      		row.children[j].classList.add('markBomb');
-      	}
-      	else if(value == 0) row.children[j].classList.add('opened');
-      	else {
-      	  row.children[j].innerHTML = value;
-      	  row.children[j].classList.add('opened');
-      	  if(value == 1) row.children[j].classList.add('one');
-  		  else if(value == 2) row.children[j].classList.add('two');
-  		  else if(value == 3) row.children[j].classList.add('three');
-  		  else if(value == 4) row.children[j].classList.add('four');
-      	}
-      }
-    }
-  }
-}
-
-/**
- * [winner work if you are winner]
- * @return {undefined}
- */
-function winner() {
-  openLostCells();
-
-  var parent = document.body;
-  var img = document.createElement('img');
-  img.classList.add('winner');
-  parent.appendChild(img);
-
-  table.onclick = function () {};
-  table.removeEventListener('contextmenu', function () {});
-}
-
-/**
- * [getBombAmount calculate number of bombs around cell]
- * @return {number} - amount of bumbs
- */
-function getBombAmount(i, j) {
-  var counter = 0;
-  var top = true, bottom = true, left = true, right = true;			
-
-	if(i-1 < 0) top = false;
-	if(i+1 >= bomb.length) bottom = false;
-	if(j-1 < 0) left = false;
-	if(j+1 >= bomb[0].length) right = false;
-
-	if(top) {
-		if(bomb[i-1][j] == 1) counter++;
+	function counter() {
+		return currentCount++;
 	}
-	if(top && left) {
-		if(bomb[i-1][j-1] == 1) counter++;
+
+	counter.reset = function() {
+		currentCount = 0;
 	}
-	if(top && right) {
-		if(bomb[i-1][j+1] == 1) counter++;
-	}
-	if(left) {
-		if(bomb[i][j-1] == 1) counter++;
-	}
-	if(right) {
-		if(bomb[i][j+1] == 1) counter++;
-	}
-	if(bottom) {
-		if(bomb[i+1][j] == 1) counter++;
-	}
-	if(bottom && left) {
-		if(bomb[i+1][j-1] == 1) counter++;
-	}
-	if(bottom && right) {
-		if(bomb[i+1][j+1] == 1) counter++;
+
+	counter.get = function() {
+		return currentCount;
 	}
 
 	return counter;
 }
+
+function checkEndGame() {
+  var rows = document.querySelector('table').rows;
+
+  for(var i = 0; i < rows.length; i++)
+    for(var j = 0; j < rows[i].children.length; j++)
+	  if( !rows[i].children[j].classList.contains('hidden') ) {
+
+	  	return false;
+	  }
+
+  return true;
+}
+
+function winnerMenu() {
+  var wrapper = document.querySelector('div.wrapper');
+  var div = document.createElement('div');
+  div.className = 'winner_menu'
+
+  div.innerHTML = '<p class="winner_title">you win</p></br><div class="winner_button_wrapper">' + 
+  				  '<button class="winner_new_game_button">Play now</button></div>';
+
+  wrapper.appendChild(div);
+
+  newGame();
+}
+
+function newGame() {
+  var button = document.querySelector('button.winner_new_game_button');
+
+  button.addEventListener('click', function() {
+  	var parent = document.querySelector('div.wrapper');
+    var childTable = document.querySelector('table');
+    var childMenu = document.querySelector('div.winner_menu');
+
+    parent.removeChild(childTable);
+    parent.removeChild(childMenu);
+
+    run();
+  });
+
+}
+
+var openedCells = [[], []];
+var field = [];
+var counter = makeCounter(); 
+run();

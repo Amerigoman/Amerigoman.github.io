@@ -1,85 +1,67 @@
-﻿* {
-	box-sizing: border-box;
-}
-
-.menu {
-	margin: 20px auto 0;
-}
-
-table {
+﻿table {
 	margin: 0 auto;
+	background: #7E7E7E
 }
 
-table.area tr td {
-	height: 21px;
-	width: 21px;
-	border: 1px solid rgba(93,93,123,.26);
-	background: rgba(175,165,165,.99);
+table td {
+	height: 98px;
+	width: 98px;
+	font-size: 0
 }
 
-table.area tr td:active {
-	background: rgba(134,118,118,.99);
-}
-
-.nameGame {
-	width: 95px;
-	display: block; 
-	margin: 10px auto;
+.closed {
+	background-image: url('https://kde.link/test/0.png');
 }
 
 .opened {
-
-	background: rgba(199,190,190,.72) !important;
-	text-align: center;
-	vertical-align: middle;
+	background-image: url('https://kde.link/test/1.png');
 }
 
-.markBomb {
-	background: url(../img/bomb.png) !important;
+.hidden {
+	visibility: hidden;
 }
 
-.marker {
-	background-image: url(../img/bombMarker.png) !important;
-	background-color: rgba(199,190,190,.72) !important;
+div.wrapper {
+  position: relative;
 }
 
-.gameover {
-	display: block; 
-	margin: 0 auto;
-	width: 200px;
-	height: 85px;
-	background: url(../img/gameover.png);
+div.winner_menu {
+  position: absolute;
+  top: 5px;
+  right: 45%;
 }
 
-.winner {
-	display: block; 
-	margin: 0 auto;
-	width: 200px;
-	height: 137px;
-	background: url(../img/winner.png);
+.winner_title {
+	font-size: 36px;
+	line-height: 40px;
+	margin: 1em 0 .6em 0;
+	font-weight: normal;
+	font-family: 'Hammersmith One', sans-serif;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.4);
+	color: #6Cf;
 }
 
-.one { color: blue; }
-.two { color: green; }
-.three { color: red; }
-.four { color: orange; }
-
-input {
-	margin-bottom: 10px;
+.winner_new_game_button {
+	display: inline;
+	outline: none;
+	cursor: pointer;
+	text-decoration: none;
+	font: 14px/100% Arial, Helvetica, sans-serif;
+	padding: .5em 2em .55em;
+	text-shadow: 0 1px 1px rgba(0,0,0,.3);
+	border-radius: .5em;
+	box-shadow: 0 1px 2px rgba(0,0,0,.2);
 }
 
-.btn {
-	display: block;
-	margin: 5px auto 0;
-	width: 100px;
-	align-self: center;
+.winner_button_wrapper {
+  text-align: center
 }
 
-.form-control {
-	margin-left: 10px;
-	width: 100px;
+.winner_new_game_button:hover {
+	text-decoration: none;
 }
 
-input[type="radio"] {
-	margin-left: 10px;
+.winner_new_game_button:active {
+	position: relative;
+	top: 1px;
 }

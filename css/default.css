@@ -6,7 +6,7 @@ small, strike, strong, sub, sup, tt, var,
 b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, legend,
-table, tbody, tfoot, thead, tr, th {
+table, tbody, tfoot, thead, tr, th, td {
     margin: 0;
     padding: 0;
     border: 0;
@@ -40,7 +40,7 @@ del {
     text-decoration: line-through;
 }
  
-table {
+/* table {
     border-collapse: collapse;
     border-spacing: 0;
-}
+} */
