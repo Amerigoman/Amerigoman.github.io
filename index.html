@@ -2,257 +2,122 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Jetro</title>
+	<title>Goto Web</title>
 
-	<link rel="stylesheet" href="css/bootstrap.min.css"></link>
+	<link rel="stylesheet" href="css/default.css"></link>
 	<link rel="stylesheet" href="css/style.css"></link>
 
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+	<script src="js/jquery.easing.1.3.js"></script>
+	<script src="js/main.js"></script>
 </head>
 <body>
-	<!-- HEADER -->
-	<header>
-		<!-- NAV BAR -->
-		<nav class="navbar navbar-default">
-			<div class="container">
 
-			<!-- LOGO -->
-			<h1><a class="navbar-brand" href="#">Jet<span>ro</span></a></h1>
-				<!-- MOBILE VIEW -->
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" 	data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>					
-				</div>
-
-				<!-- DESKTOP -->
-				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-					<ul class="nav navbar-nav navbar-right">
-						<li class="active"><a href="#">Home</a></li>
-						<li><a href="#">About us</a></li>
-						<li><a href="#">Blog</a></li>
-						<li><a href="#">Portfolio</a></li>
-						<li><a href="#">Contact us</a></li>
-					</ul>
-						</div><!-- /.navbar-collapse -->
-			</div><!-- /.container-fluid -->
-		</nav>
-
-		<!-- SLIDER -->
-		<section class="container-fluid" id="slider">
-			<div id="background-strip">				
+	<div class="wrapper">
+		<div class="step-side" style="display: none">
+			<div class="logo-container">
+				<img src="img/GOTO_WEB.jpg" alt="logo">
 			</div>
-
-			<div class="container">
-				<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-
-				<!-- Wrapper for slides -->
-				<div class="carousel-inner" role="listbox">
-					<div class="item active">
-						<img src="img/slider1.jpg" alt="slider1">
-						<section class="carousel-caption">
-							<h1>Slide One</h1>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae unde, voluptate cumque dolores quod veritatis repudiandae laborum eaque corrupti.
-							</p>
-						</section>
+			<div class="step-content">
+				<p class="welcome-title">Добро пожаловать в Gotoweb, выполните несколько простых шагов для начала работы с системой.</p>
+				<div class="step-1">
+					<div class="ellipse-current">
+						<div class="number-one-current"></div>
 					</div>
-					<div class="item">
-						<img src="img/slider1.jpg" alt="slider2">
-						<section class="carousel-caption">
-							<h1>Slide Two</h1>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae unde, voluptate cumque dolores quod veritatis repudiandae laborum eaque corrupti.
-							</p>
-						</section>
-					</div>
-					<div class="item">
-						<img src="img/slider1.jpg" alt="slider3">
-						<section class="carousel-caption">
-							<h1>Slide Three</h1>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae unde, voluptate cumque dolores quod veritatis repudiandae laborum eaque corrupti.
-							</p>
-						</section>
-					</div>
-					<div class="item">
-						<img src="img/slider1.jpg" alt="slider4">
-						<section class="carousel-caption">
-							<h1>Slide Four</h1>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae unde, voluptate cumque dolores quod veritatis repudiandae laborum eaque corrupti.
-							</p>
-						</section>
-					</div>
-					<div class="item">
-						<img src="img/slider1.jpg" alt="slider5">
-						<section class="carousel-caption">
-							<h1>Slide Five</h1>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae unde, voluptate cumque dolores quod veritatis repudiandae laborum eaque corrupti.
-							</p>
-						</section>
-					</div>
-					<div class="item">
-						<img src="img/slider1.jpg" alt="slider6">
-						<section class="carousel-caption">
-							<h1>Slide Six</h1>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae unde, voluptate cumque dolores quod veritatis repudiandae laborum eaque corrupti.
-							</p>
-						</section>
-					</div>
+					<span class="step-text current">
+						<p><strong>Мы просим вас заполнить несколько простых форм.</strong><br/>
+						Которые помогут нам взаимодействовать с вами на дружественном<br/>уровне.</p>
+					</span>					
 				</div>
-
-				<!-- Indicators -->
-				<ol class="carousel-indicators">
-					<li data-target="#carousel-example-generic" data-slide-to="0" class="active">
-						<img src="img/thumbnail1.gif" alt="thumbnail1">
-					</li>
-
-					<li data-target="#carousel-example-generic" data-slide-to="1">
-						<img src="img/thumbnail2.gif" alt="thumbnail2">
-					</li>
-
-					<li data-target="#carousel-example-generic" data-slide-to="2">
-						<img src="img/thumbnail1.gif" alt="thumbnail3">
-					</li>
-
-					<li data-target="#carousel-example-generic" data-slide-to="3">
-						<img src="img/thumbnail2.gif" alt="thumbnail4">
-					</li>
-
-					<li data-target="#carousel-example-generic" data-slide-to="4">
-						<img src="img/thumbnail1.gif" alt="thumbnail5">
-					</li>
-
-					<li data-target="#carousel-example-generic" data-slide-to="5">
-						<img src="img/thumbnail2.gif" alt="thumbnail6">
-					</li>
-				</ol>
-
-				<!-- Controls -->
-				<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-					<span>
-						<img src="img/previous.png" alt="previous" width="36px" height="52px">
+				
+				<div class="step-2">
+					<div class="ellipse-inactive">
+						<div class="number-two-inactive"></div>
+					</div>
+					<span class="step-text">
+						<p>Введите пожалуйста свой электроный адрес,  он будет логином<br/>к вашему личному кабинету. Придумайте пароль.</p>
 					</span>
-				</a>
-				<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-					<span>
-						<img src="img/next.png" alt="next" width="36px" height="52px">
-					</span>
-				</a>
-				</div>
+				</div>				
 			</div>
-		</section>
-	</header>
 
-
-
-	<!-- INTRO_ARTICLES -->
-	<section class="container" id="intro-articles">
-		<div class="row">
-			<article class="col-lg-4">
-				<h1>Check out my latest portfolio items</h1>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis harum adipisci, at, voluptate aperiam dolorem minima nesciunt voluptatum soluta, eius molestiae tempora totam ut consectetur quo sequi vel ipsum neque.
-				</p>
-				<button>More...</button>
-			</article>
-
-			<article class="col-lg-4">
-				<h1>Offer top notch quality work $ services</h1>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis harum adipisci, at, voluptate aperiam dolorem minima nesciunt voluptatum soluta, eius molestiae tempora totam ut consectetur quo sequi vel ipsum neque.
-				</p>
-				<button>More...</button>
-			</article>
-
-			<article class="col-lg-4">
-				<h1>Follow me on Twitter & Facebook</h1>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis harum adipisci, at, voluptate aperiam dolorem minima nesciunt voluptatum soluta, eius molestiae tempora totam ut consectetur quo sequi vel ipsum neque.
-				</p>
-				<button>More...</button>
-			</article>
-		</div>
-	</section>
-
-
-
-	<!-- RECENT ARTICLES -->
-	<aside class="container" id="recent-works">
-
-		<div class="row">
-			<div id="header-with-background">
-				<h1><a href="#">Recent works</a></h1>
-			</div>
+			<div class="helper"><a href="#">Нужна помощь?</a></div>			
 		</div>
 
-		<div class="row" id="recent-items">
-			<div class="col-lg-3 col-md-6 col-sm-6 recent">
-				<a href="#"><img src="img/work1.jpg" alt=""></a>
-				<div>
-					<h2><a href="">Character Design</a></h2>
-					<span>June 15, 2012</span>
-				</div>
-			</div>
-			<div class="col-lg-3 col-md-6 col-sm-6 recent">
-				<a href="#"><img src="img/work2.jpg" alt=""></a>
-				<div>
-					<h2><a href="">Brochure Design</a></h2>
-					<span>June 15, 2012</span>
-				</div>
-			</div>
-			<div class="col-lg-3 col-md-6 col-sm-6 recent">
-				<a href="#"><img src="img/work3.jpg" alt=""></a>
-				<div>
-					<h2><a href="">Social media buttons</a></h2>
-					<span>June 15, 2012</span>
-				</div>
-			</div>
-			<div class="col-lg-3 col-md-6 col-sm-6 recent">
-				<a href="#"><img src="img/work4.jpg" alt=""></a>
-				<div>
-					<h2><a href="">10 amazing websites</a></h2>
-					<span>June 15, 2012</span>
-				</div>
-			</div>
-		</div>
-	</aside>
-
-
-
-	<!-- FOOTER -->
-	<footer class="container-fluid">
-		<section class="container">
-			<div class="row">
-				<section class="col-md-4">
-					<h3>About Jetro</h3>
-					<p>Lorem ipsum dolor sit amet, malorum recteque reprehendunt ea vel. Urbanitas adolescens vim te, per at tritani aperiri. Adhuc invenire convenire his ea. Id mei vitae denique, in eam commodo veritus disputando.</p>
-					<p>Pro et erant delicata, eu vim essent imperdiet accommodare, dictas deseruisse ius an. Solet everti definitionem id ius, sonet oporteat cu vim.</p>
-				</section>
-
-				<section class="col-md-4" id="twitter">
-					<h3>Twitter widget</h3>
-					<p><span>@pixelmater</span> What an awesome design with great functionality :)</p>
-					<p><span>about 1 hour ago</span></p>
-					<p><span>@designdude</span> What an awesome design with great functionality :)</p>
-					<p><span>about 2 hour ago</span></p>
-					<p>Follow <span>@bestpsdfreebies</span></p>
-				</section>
-
-				<section class="col-md-4">
-					<h3>Contact us</h3>
-					<p>Lorem ipsum dolor sit amet, malorum recteque reprehendunt ea vel. Urbanitas adolescens vim te, per at tritani aperiri. </p>
-					<p>information@jetro.com <br/>
-					1.222.333.4444</p>
-
-					<div>
-						<a href="#" id="social-fb"></a>
-						<a href="#" id="social-tw"></a>
-						<a href="#" id="social-mail"></a>
-						<a href="#" id="social-rss"></a>
-						<a href="#" id="social-vimeo"></a>
+		<div class="form-side" style="display: none">
+			<div class="form-wrapper">
+				<form action="/save/" method="POST">
+					<div class="step-one-form">
+						<p class="input-name">Имя</p>
+						<div class="input-container name">
+							<input type="text" name="name" placeholder="First name">
+							<span class="input-icon"></span>
+						</div>						
+						<p class="input-name">Фамилия</p>
+						<div class="input-container lastname">
+							<input type="text" name="surname" placeholder="Last name">
+							<span class="input-icon"></span>
+						</div>
+						<p class="input-name">Ваш контактный номер телефона</p>
+						<span class="remark">Не обязателен</span>
+						<div class="input-container phone">
+							<input type="tel" name="phone" placeholder="Phone">
+							<span class="input-icon"></span>
+						</div>
+						<div class="file_upload">
+							<div class="initials-container">
+								<div class="initials"></div>
+								<img src="img/Ellipse-initials.png" alt="initials">
+							</div>
+					        <div class="title-definition">Перетащите свое изображение в выделенную область<br/>или</div>
+					        <div class="file-button"><a href="#">Выберите его на компьютере</a></div>
+					        <input type="file" name="picture" accept="image/*,image/jpeg">
+					    </div>				    
+						<p class="size-limit-title">Размер файла не более - 5МБ, изображения не более - 400х400 px</p>
+						<div class="button-container">
+							<div class="next-step-title">Следующий Шаг</div>
+							<input type="button">
+						</div>						
 					</div>
-				</section>
-			</div>
-		</section>
-	</footer>
+					<div class="step-two-form" style="display: none">
+						<p class="input-name">Электроная почта / Логин</p>
+						<div class="input-container email">
+							<input type="email" name="email" placeholder="E-mail">
+							<span class="input-icon">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+						</div>
+						<p class="input-name">Пароль</p>
+						<span class="remark">Не менее 6 символов</span>
+						<div class="input-container password">
+							<input type="password"
+								   placeholder="&bull;&bull;&bull;&bull;&bull;&bull;">
+							<span class="input-icon eye">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+						</div>
+						<p class="input-name">Повторите пароль</p>
+						<div class="input-container reply-password">
+							<input type="password" name="password" 
+								   placeholder="&bull;&bull;&bull;&bull;&bull;&bull;">
+							<span class="input-icon eye">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+						</div>
+						<p class="input-name">Введите капчу</p>
+						<div class="capture">
+							<div class="capture-definition">Зона Капчи</div>							
+						</div>
+						<div class="button-container registration">
+							<div class="registration-title">Регистрация</div>
+							<input type="submit" value="">
+						</div>
+						<div class="button-container back-button">
+							<div class="back-button-title"><&nbsp;&nbsp;Вернуться назад</div>
+							<input type="button">
+						</div>
+						<div class="user-rules-and-agreement">Нажимая кнопку Регистрация, вы соглашаетесь с
+						<a href="#">правилами пользования</a><br/>и <a href="#">лицензионым соглашением</a>
+						</div>
+					</div>
+				</form>
+			</div>	
+		</div>
+	</div>
 
 </body>
 </html>
